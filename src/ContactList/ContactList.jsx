@@ -3,13 +3,9 @@ import css from "./ContactList.module.css";
 
 function ContactList(props) {
   return (
-    <ul>
+    <ul className={css.list}>
       {props.contacts.map((contact) => {
-        return (
-          <li key={contact.id}>
-            <Contact contact={contact} />
-          </li>
-        );
+        return <Contact contact={contact} key={contact.id} />;
       })}
     </ul>
   );
