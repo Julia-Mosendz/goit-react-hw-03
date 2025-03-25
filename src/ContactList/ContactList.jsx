@@ -5,7 +5,13 @@ function ContactList(props) {
   return (
     <ul className={css.list}>
       {props.contacts.map((contact) => {
-        return <Contact contact={contact} key={contact.id} />;
+        return (
+          <Contact
+            contact={contact}
+            key={contact.id}
+            onDeleteContact={props.onDeleteContact}
+          />
+        );
       })}
     </ul>
   );

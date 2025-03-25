@@ -1,29 +1,43 @@
 import { nanoid } from "nanoid";
 import * as Yup from "yup"
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, ErrorMessage } from "formik";
 import css from "./ContactForm.module.css"
 
 const contactValidationScheme = Yup.object().shape({
-  name: Yup.string().min(3, "Too short").max(50, "Too long").required("Required"),
-  number: Yup.string().required("Required")
-})
+  name: Yup.string()
+    .min(3, "Too short")
+    .max(50, "Too long")
+    .required("Required"),
+  number: Yup.string()
+    .min(3, "Too short")
+    .max(50, "Too long")
+    .required("Required"),
+});
 function ContactForm (props) {
     return (
-      <Formik initialValues={{name: "", number: ""}} validationSchema={contactValidationScheme} onSubmit={(values, actions) => {
-        const contact = {...values, id: nanoid()}
-        console.log (contact)
-        props.onAddContact(contact)
-        }}>
+      <Formik
+        initialValues={{ name: "", number: "" }}
+        validationSchema={contactValidationScheme}
+        onSubmit={(values, actions) => {
+          const contact = { ...values, id: nanoid() };
+          props.onAddContact(contact);
+          actions.resetForm()
+        }}
+      >
         <Form className={css.form}>
           <label>
             <span className={css.label}>Name</span>
             <Field className={css.field} type="text" name="name" />
+            <ErrorMessage className={css.error} name="name" component="span" />
           </label>
           <label>
             <span className={css.label}>Number</span>
             <Field className={css.field} type="tel" name="number" />
+            <ErrorMessage className={css.error} name="number" component="span" />
           </label>
-          <button className={css.btn} type="submit">Add contact</button>
+          <button className={css.btn} type="submit">
+            Add contact
+          </button>
         </Form>
       </Formik>
     );
